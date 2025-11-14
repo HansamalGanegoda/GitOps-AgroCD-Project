@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitops-node-app
+  namespace: sasindu-agrocd
+spec:
+  selector:
+    app: gitops-node-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitops-node-app
+  namespace: sasindu-agrocd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitops-node-app
+  template:
+    metadata:
+      labels:
+        app: gitops-node-app
+    spec:
+      containers:
+      - name: node-app
+        image: hansamalganegoda/gitops-node-app:latest
+        ports:
+        - containerPort: 3000
